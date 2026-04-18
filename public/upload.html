@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Upload academic resources to share with the community — AcadHub.">
+    <title>Upload Resource — AcadHub</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="navbar" id="navbar"></header>
+
+    <main class="main-content">
+        <div class="container container-sm">
+            <div class="page-header text-center">
+                <h1 class="page-title">Upload Resource</h1>
+                <p class="page-subtitle">Share your knowledge with fellow students</p>
+            </div>
+
+            <div class="card" style="padding: 2rem;">
+                <form id="uploadForm" onsubmit="handleUpload(event)">
+                    <div class="form-group">
+                        <label class="form-label">Title *</label>
+                        <input type="text" class="form-input" id="uploadTitle" 
+                            placeholder="e.g. Data Structures - Complete Notes" required maxlength="200">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <textarea class="form-textarea" id="uploadDescription" rows="4"
+                            placeholder="Describe the content, what topics are covered, and who it's useful for..." 
+                            required maxlength="2000"></textarea>
+                    </div>
+
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Subject *</label>
+                            <select class="form-select" id="uploadSubject" required>
+                                <option value="">Select Subject</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Mechanical">Mechanical</option>
+                                <option value="Civil">Civil</option>
+                                <option value="Biology">Biology</option>
+                                <option value="English">English</option>
+                                <option value="Business">Business</option>
+                                <option value="Economics">Economics</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Topic</label>
+                            <input type="text" class="form-input" id="uploadTopic" 
+                                placeholder="e.g. Binary Trees, Thermodynamics">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Upload File *</label>
+                        <div class="form-file">
+                            <input type="file" id="uploadFile" required 
+                                accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.gif,.txt,.zip,.mp4,.webm"
+                                onchange="updateFileLabel(this)">
+                            <div class="form-file-label" id="fileLabelArea">
+                                <span class="upload-icon">📁</span>
+                                <span class="upload-text">Click to select a file or drag it here</span>
+                                <span class="upload-hint">PDF, DOC, PPT, Images, Videos (Max 50MB)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-full btn-lg" id="uploadBtn">
+                        📤 Upload Resource
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/upload.js"></script>
+</body>
+</html>

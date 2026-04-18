@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View resource details, AI-generated summary, and community discussion — AcadHub.">
+    <title>Resource Detail — AcadHub</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="navbar" id="navbar"></header>
+
+    <main class="main-content">
+        <div class="container container-lg">
+            <!-- Resource Content -->
+            <div class="resource-detail" id="resourceContent">
+                <div class="spinner-overlay" style="grid-column: 1 / -1;">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Report Modal -->
+    <div id="reportModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🚩 Report Resource</h2>
+                <button class="btn-close" onclick="closeReportModal()">✕</button>
+            </div>
+            <div class="modal-body form-group" style="padding-top: 1rem;">
+                <p class="text-sm text-muted" style="margin-bottom: 0.5rem;">Why are you reporting this resource? (e.g. incorrect information, copyright violation, inappropriate content)</p>
+                <textarea id="reportReason" class="form-input" rows="4" placeholder="Please provide specific details..."></textarea>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.5rem; padding-top: 1rem;">
+                <button class="btn btn-outline" onclick="closeReportModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitReportModal()">Submit Report</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/resource.js"></script>
+</body>
+</html>

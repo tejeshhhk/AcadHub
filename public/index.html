@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Academic Resource Sharing Platform — Discover, share, and learn with AI-powered academic resources.">
+    <title>AcadHub — Smart Academic Resource Sharing</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar" id="navbar"></header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="hero-title">
+                Discover & Share<br>
+                <span class="gradient-text">Academic Resources</span>
+            </h1>
+            <p class="hero-description">
+                Upload notes, PDFs, and tutorials. Get AI-powered summaries, smart recommendations, and connect with fellow learners.
+            </p>
+            <div class="hero-actions">
+                <a href="/search.html" class="btn btn-primary btn-lg">🔍 Explore Resources</a>
+                <a href="/upload.html" class="btn btn-secondary btn-lg">📤 Upload Resource</a>
+            </div>
+        </section>
+
+        <div class="container container-lg">
+            <!-- Search Bar -->
+            <div class="search-container mb-3">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="homeSearch" placeholder="Search for notes, PDFs, tutorials..." 
+                    onkeydown="if(event.key==='Enter') searchFromHome()">
+                <button class="btn btn-primary btn-sm search-btn" onclick="searchFromHome()">Search</button>
+            </div>
+
+            <!-- Trending Resources -->
+            <section class="mb-3">
+                <div class="section-header">
+                    <h2 class="section-title">🔥 Trending Now</h2>
+                    <a href="/search.html?sort=views" class="btn btn-outline btn-sm">View All</a>
+                </div>
+                <div class="grid grid-4" id="trendingGrid">
+                    <div class="spinner-overlay"><div class="spinner"></div></div>
+                </div>
+            </section>
+
+            <!-- Recommended Resources (shown only when logged in) -->
+            <section class="mb-3" id="recommendedSection" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">✨ Recommended For You</h2>
+                    <a href="/search.html" class="btn btn-outline btn-sm">View All</a>
+                </div>
+                <div class="grid grid-4" id="recommendedGrid">
+                    <div class="spinner-overlay"><div class="spinner"></div></div>
+                </div>
+            </section>
+
+            <!-- Recent Resources -->
+            <section class="mb-3">
+                <div class="section-header">
+                    <h2 class="section-title">📚 Latest Resources</h2>
+                    <a href="/search.html?sort=newest" class="btn btn-outline btn-sm">View All</a>
+                </div>
+                <div class="grid grid-4" id="latestGrid">
+                    <div class="spinner-overlay"><div class="spinner"></div></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin panel — manage users, resources, and reports.">
+    <title>Admin Panel — AcadHub</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="navbar" id="navbar"></header>
+
+    <main class="main-content">
+        <div class="dashboard-layout">
+            <!-- Sidebar Navigation -->
+            <aside class="dashboard-sidebar">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item active" onclick="switchAdminTab('stats')">📊 Dashboard</li>
+                    <li class="sidebar-nav-item" onclick="switchAdminTab('users')">👥 Users</li>
+                    <li class="sidebar-nav-item" onclick="switchAdminTab('resources')">📚 Resources</li>
+                    <li class="sidebar-nav-item" onclick="switchAdminTab('reports')">🚩 Reports</li>
+                </ul>
+            </aside>
+
+            <!-- Admin Content -->
+            <div class="dashboard-main">
+                <!-- Stats Tab -->
+                <div class="tab-content active" id="tab-stats">
+                    <div class="page-header">
+                        <h1 class="page-title">Admin Dashboard</h1>
+                        <p class="page-subtitle">Platform overview and key metrics</p>
+                    </div>
+
+                    <div class="grid grid-4 mb-3" id="adminStats">
+                        <div class="stat-card">
+                            <div class="stat-icon purple">👥</div>
+                            <div class="stat-info">
+                                <h3 id="aStatUsers">—</h3>
+                                <p>Total Users</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green">📚</div>
+                            <div class="stat-info">
+                                <h3 id="aStatResources">—</h3>
+                                <p>Total Resources</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon pink">💬</div>
+                            <div class="stat-info">
+                                <h3 id="aStatComments">—</h3>
+                                <p>Comments</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red">🚩</div>
+                            <div class="stat-info">
+                                <h3 id="aStatReports">—</h3>
+                                <p>Pending Reports</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-2 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">📈</div>
+                            <div class="stat-info">
+                                <h3 id="aStatNewUsers">—</h3>
+                                <p>New Users This Week</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange">📈</div>
+                            <div class="stat-info">
+                                <h3 id="aStatNewResources">—</h3>
+                                <p>New Resources This Week</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Subjects -->
+                    <div class="section-header">
+                        <h2 class="section-title">📊 Top Subjects</h2>
+                    </div>
+                    <div id="topSubjects" class="card">
+                        <div class="spinner-overlay"><div class="spinner spinner-sm"></div></div>
+                    </div>
+                </div>
+
+                <!-- Users Tab -->
+                <div class="tab-content" id="tab-users">
+                    <div class="page-header">
+                        <h1 class="page-title">👥 User Management</h1>
+                        <p class="page-subtitle">View and manage all registered users</p>
+                    </div>
+                    <div class="table-container" id="usersTable">
+                        <div class="spinner-overlay"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <!-- Resources Tab -->
+                <div class="tab-content" id="tab-resources">
+                    <div class="page-header">
+                        <h1 class="page-title">📚 Resource Management</h1>
+                        <p class="page-subtitle">View, hide, or delete resources</p>
+                    </div>
+                    <div class="table-container" id="resourcesTable">
+                        <div class="spinner-overlay"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <!-- Reports Tab -->
+                <div class="tab-content" id="tab-reports">
+                    <div class="page-header">
+                        <h1 class="page-title">🚩 Report Management</h1>
+                        <p class="page-subtitle">Review and resolve user reports</p>
+                    </div>
+                    <div class="table-container" id="reportsTable">
+                        <div class="spinner-overlay"><div class="spinner"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>

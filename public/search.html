@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Search and discover academic resources with AI-powered smart search — AcadHub.">
+    <title>Search Resources — AcadHub</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header class="navbar" id="navbar"></header>
+
+    <main class="main-content">
+        <div class="container container-lg">
+            <div class="page-header">
+                <h1 class="page-title">Search Resources</h1>
+                <p class="page-subtitle">Find the perfect study material with filters and AI-powered search</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container mb-3" style="max-width: 100%;">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchInput" 
+                    placeholder="Search by title, subject, topic, or keywords..."
+                    onkeydown="if(event.key==='Enter') performSearch()">
+                <button class="btn btn-primary btn-sm search-btn" onclick="performSearch()">Search</button>
+            </div>
+
+            <!-- Smart Search Toggle + Filters -->
+            <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <!-- Smart Search Toggle -->
+                    <label class="flex items-center gap-1" style="cursor: pointer;">
+                        <input type="checkbox" id="smartSearchToggle" style="accent-color: var(--accent-primary);">
+                        <span class="text-sm" style="color: var(--accent-secondary);">✨ AI Smart Search</span>
+                    </label>
+
+                    <!-- Subject Filter -->
+                    <select class="form-select" id="filterSubject" style="width: auto; padding: 0.5rem 2.5rem 0.5rem 0.75rem;" onchange="performSearch()">
+                        <option value="">All Subjects</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Civil">Civil</option>
+                        <option value="Biology">Biology</option>
+                        <option value="English">English</option>
+                        <option value="Business">Business</option>
+                        <option value="Economics">Economics</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <!-- Sort -->
+                    <select class="form-select" id="filterSort" style="width: auto; padding: 0.5rem 2.5rem 0.5rem 0.75rem;" onchange="performSearch()">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="views">Most Viewed</option>
+                        <option value="downloads">Most Downloaded</option>
+                        <option value="score">Top Score</option>
+                    </select>
+                </div>
+
+                <span class="text-sm text-muted" id="resultCount"></span>
+            </div>
+
+            <!-- Search Results Grid -->
+            <div class="grid grid-4" id="searchResults">
+                <div class="spinner-overlay" style="grid-column: 1 / -1;">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </main>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/search.js"></script>
+</body>
+</html>
