@@ -79,7 +79,7 @@ function renderResource() {
                 <!-- Media Preview if applicable -->
                 ${r.fileType === 'image' ? `<div style="margin-bottom: 1.5rem; text-align: center;"><img src="${r.fileUrl}" style="max-width: 100%; max-height: 400px; border-radius: 8px; border: 1px solid var(--border-color);" alt="Media Preview"></div>` : ''}
                 ${r.fileType === 'video' ? `<div style="margin-bottom: 1.5rem; text-align: center;"><video src="${r.fileUrl}" controls style="max-width: 100%; max-height: 400px; border-radius: 8px; border: 1px solid var(--border-color);"></video></div>` : ''}
-                ${r.fileType === 'pdf' ? `<div style="margin-bottom: 1.5rem;"><iframe src="${r.fileUrl}" width="100%" height="500px" style="border: 1px solid var(--border-color); border-radius: 8px;"></iframe></div>` : ''}
+                ${r.fileType === 'pdf' ? `<div style="margin-bottom: 1.5rem;"><iframe src="https://docs.google.com/gview?url=${encodeURIComponent(r.fileUrl.endsWith('.pdf') ? r.fileUrl : r.fileUrl + '.pdf')}&embedded=true" width="100%" height="500px" style="border: 1px solid var(--border-color); border-radius: 8px;"></iframe></div>` : ''}
 
                 <div class="flex items-center gap-3 flex-wrap" style="color: var(--text-muted); font-size: 0.85rem;">
 
