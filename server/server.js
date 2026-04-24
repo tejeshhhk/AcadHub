@@ -74,6 +74,11 @@ app.get('/api/download/:filename', (req, res) => {
 
 // Serve frontend pages for any non-API route (SPA-like behavior)
 app.get('*', (req, res) => {
+    // If the request looks like a file request (has an extension), return 404 instead of index.html
+    // This prevents the "unstyled page" issue where missing CSS files return HTML.
+    if (req.path.match(/\.[a-zA-Z0-9]+$/)) {
+        return res.status(404).send('Not found');
+    }
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
@@ -109,13 +114,13 @@ const PORT = process.env.PORT || 5000;
 connectDB().catch(console.dir);
 initAI();
 
-// Export the app for Vercel
+// Export the app for Vercel Serverless Functions
 module.exports = app;
 
-// Only listen on a port if not running in Vercel
-if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+// Only listen on a port if not running in Vercel (Render requires app.listen in production)
+if (!process.env.VERCEL) {
     app.listen(PORT, () => {
-        console.log(`\n🚀 Server running on http://localhost:${PORT}`);
+        console.log(`\n🚀 Server running on port ${PORT}`);
         console.log(`📁 Static files: ${path.join(__dirname, '../public')}`);
         console.log(`📤 Uploads: ${uploadsDir}\n`);
     });
