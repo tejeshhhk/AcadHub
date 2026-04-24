@@ -105,23 +105,18 @@ app.use((err, req, res, next) => {
 // Start server
 const PORT = process.env.PORT || 5000;
 
-const startServer = async () => {
-    try {
-        // Connect to MongoDB
-        await connectDB();
+// Connect to MongoDB and Init AI
+connectDB().catch(console.dir);
+initAI();
 
-        // Initialize AI Service (Groq)
-        initAI();
+// Export the app for Vercel
+module.exports = app;
 
-        app.listen(PORT, () => {
-            console.log(`\n🚀 Server running on http://localhost:${PORT}`);
-            console.log(`📁 Static files: ${path.join(__dirname, '../public')}`);
-            console.log(`📤 Uploads: ${uploadsDir}\n`);
-        });
-    } catch (error) {
-        console.error('Failed to start server:', error);
-        process.exit(1);
-    }
-};
-
-startServer();
+// Only listen on a port if not running in Vercel
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`\n🚀 Server running on http://localhost:${PORT}`);
+        console.log(`📁 Static files: ${path.join(__dirname, '../public')}`);
+        console.log(`📤 Uploads: ${uploadsDir}\n`);
+    });
+}
