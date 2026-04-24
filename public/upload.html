@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Upload academic resources to share with the community — AcadHub.">
-    <title>Upload Resource — AcadHub</title>
+    <meta name="description" content="Upload academic resources to share with the community — Acudhb.">
+    <title>Upload Resource — Acudhb</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -36,19 +36,24 @@
                         <div class="form-group">
                             <label class="form-label">Subject *</label>
                             <select class="form-select" id="uploadSubject" required>
-                                <option value="">Select Subject</option>
-                                <option value="Mathematics">Mathematics</option>
-                                <option value="Physics">Physics</option>
-                                <option value="Chemistry">Chemistry</option>
-                                <option value="Computer Science">Computer Science</option>
-                                <option value="Electronics">Electronics</option>
-                                <option value="Mechanical">Mechanical</option>
-                                <option value="Civil">Civil</option>
-                                <option value="Biology">Biology</option>
-                                <option value="English">English</option>
-                                <option value="Business">Business</option>
-                                <option value="Economics">Economics</option>
-                                <option value="Other">Other</option>
+                                <option value="" disabled selected>Select Subject</option>
+                                <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                <option value="Civil Engineering">Civil Engineering</option>
+                                <option value="Electrical Engineering">Electrical Engineering</option>
+                                <option value="Electronics & Communication">Electronics & Communication</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Chemical Engineering">Chemical Engineering</option>
+                                <option value="Aerospace Engineering">Aerospace Engineering</option>
+                                <option value="Biomedical Engineering">Biomedical Engineering</option>
+                                <option value="Engineering Mathematics">Engineering Mathematics</option>
+                                <option value="Engineering Physics">Engineering Physics</option>
+                                <option value="Engineering Chemistry">Engineering Chemistry</option>
+                                <option value="Engineering Mechanics">Engineering Mechanics</option>
+                                <option value="Environmental Studies">Environmental Studies</option>
+                                <option value="Basic Electrical & Electronics">Basic Electrical & Electronics</option>
+                                <option value="Engineering Graphics">Engineering Graphics</option>
+                                <option value="Other Engineering">Other Engineering</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -56,6 +61,14 @@
                             <input type="text" class="form-input" id="uploadTopic" 
                                 placeholder="e.g. Binary Trees, Thermodynamics">
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Visibility *</label>
+                        <select class="form-select" id="uploadVisibility" required>
+                            <option value="public">Public (Share with community)</option>
+                            <option value="private">Private (Only for me to study & get AI summary)</option>
+                        </select>
                     </div>
 
                     <div class="form-group">

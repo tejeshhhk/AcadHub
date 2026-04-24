@@ -33,7 +33,7 @@ async function loadResource(id) {
     }
 
     currentResource = data.resource;
-    document.title = `${currentResource.title} — AcadHub`;
+    document.title = `${currentResource.title} — Acudhb`;
     renderResource();
     loadComments(id);
 }

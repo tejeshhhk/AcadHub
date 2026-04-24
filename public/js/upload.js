@@ -35,6 +35,7 @@ async function handleUpload(e) {
     const description = document.getElementById('uploadDescription').value.trim();
     const subject = document.getElementById('uploadSubject').value;
     const topic = document.getElementById('uploadTopic').value.trim();
+    const visibility = document.getElementById('uploadVisibility').value;
     const fileInput = document.getElementById('uploadFile');
 
     if (!fileInput.files || !fileInput.files[0]) {
@@ -58,6 +59,7 @@ async function handleUpload(e) {
     formData.append('description', description);
     formData.append('subject', subject);
     formData.append('topic', topic);
+    formData.append('visibility', visibility);
     formData.append('file', fileInput.files[0]);
 
     const data = await API.post('/resources/upload', formData);

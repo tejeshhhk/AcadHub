@@ -30,7 +30,7 @@ const uploadToCloudinary = (fileBuffer) => {
 };
 const uploadResource = async (req, res) => {
     try {
-        const { title, description, subject, topic } = req.body;
+        const { title, description, subject, topic, visibility } = req.body;
 
         // Validate input
         if (!title || !description || !subject) {
@@ -65,6 +65,7 @@ const uploadResource = async (req, res) => {
             topic: topic || '',
             fileUrl: result.secure_url,
             fileType,
+            visibility: visibility || 'public',
             uploadedBy: req.user._id
         });
 
@@ -103,15 +104,27 @@ const getResources = async (req, res) => {
             subject, 
             topic, 
             sort = 'newest',
-            search 
+            search,
+            user
         } = req.query;
 
         // Build filter query
         const filter = { isHidden: false };
         if (subject) filter.subject = new RegExp(subject, 'i');
         if (topic) filter.topic = new RegExp(topic, 'i');
+        if (user) filter.uploadedBy = user;
         if (search) {
             filter.$text = { $search: search };
+        }
+
+        // Handle visibility
+        if (req.user) {
+            filter.$or = [
+                { visibility: { $ne: 'private' } },
+                { uploadedBy: req.user._id }
+            ];
+        } else {
+            filter.visibility = { $ne: 'private' };
         }
 
         // Build sort query
@@ -163,7 +176,7 @@ const getTrending = async (req, res) => {
         const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
         const resources = await Resource.aggregate([
-            { $match: { isHidden: false } },
+            { $match: { isHidden: false, visibility: { $ne: 'private' } } },
             {
                 $addFields: {
                     recentViews: {
@@ -218,6 +231,15 @@ const getResource = async (req, res) => {
                 success: false,
                 message: 'This resource is currently unavailable.'
             });
+        }
+
+        if (resource.visibility === 'private') {
+            if (!req.user || req.user._id.toString() !== resource.uploadedBy._id.toString()) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'This resource is private and can only be viewed by its creator.'
+                });
+            }
         }
 
         // Increment views and add to view history

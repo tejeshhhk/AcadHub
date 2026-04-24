@@ -1,6 +1,6 @@
-# AcadHub 📚
+# Acudhb 📚
 
-AcadHub is a modern, full-stack Academic Resource Sharing Platform designed to help students and educators discover, upload, and discuss educational materials. It features AI-powered automated summaries, robust file management, and an interactive community-driven ecosystem.
+Acudhb is a modern, full-stack Academic Resource Sharing Platform designed to help students and educators discover, upload, and discuss educational materials. It features AI-powered automated summaries, robust file management, and an interactive community-driven ecosystem.
 
 ## ✨ Features
 
@@ -29,8 +29,8 @@ Make sure you have [Node.js](https://nodejs.org/) and [MongoDB](https://www.mong
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/tejeshhhk/AcadHub.git
-   cd AcadHub
+   git clone https://github.com/tejeshhhk/Acudhb.git
+   cd Acudhb
    ```
 
 2. **Install Dependencies**

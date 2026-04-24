@@ -208,7 +208,8 @@ function renderNavbar() {
                 </div>
             </div>
             <span style="font-size: 0.85rem; color: var(--text-secondary);">${user.name}</span>
-            <div class="nav-avatar" title="Logout" onclick="Auth.logout()">${user.name.charAt(0).toUpperCase()}</div>
+            <div class="nav-avatar" title="Profile">${user.name.charAt(0).toUpperCase()}</div>
+            <button class="btn btn-secondary btn-sm" style="margin-left: 0.75rem;" onclick="Auth.logout()">Logout</button>
         </div>
     ` : `
         <div class="navbar-actions">
@@ -221,7 +222,7 @@ function renderNavbar() {
         navbar.innerHTML = `
             <a href="/index.html" class="navbar-brand">
                 <div class="brand-icon">🎓</div>
-                <span>AcadHub</span>
+                <span>Acudhb</span>
             </a>
             <button class="navbar-toggle" onclick="toggleMobileNav()">
                 <span></span><span></span><span></span>
@@ -378,11 +379,15 @@ function renderStars(rating, interactive = false, resourceId = null) {
 function renderResourceCard(resource) {
     const icon = getFileIcon(resource.fileType);
     const uploaderName = resource.uploadedBy?.name || 'Unknown';
+    const privacyBadge = resource.visibility === 'private' ? `<span class="card-badge" style="background: var(--accent-red, #e74c3c); color: white; margin-left: 0.5rem;">🔒 Private</span>` : '';
     
     return `
         <div class="card resource-card" onclick="window.location.href='/resource.html?id=${resource._id}'">
             <div class="flex items-center justify-between">
-                <span class="card-badge">${icon} ${resource.subject}</span>
+                <div style="display: flex; gap: 0.5rem;">
+                    <span class="card-badge">${icon} ${resource.subject}</span>
+                    ${privacyBadge}
+                </div>
                 <span class="card-score">⭐ ${resource.averageRating?.toFixed(1) || '0.0'}</span>
             </div>
             <h3 class="card-title">${resource.title}</h3>

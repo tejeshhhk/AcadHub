@@ -73,6 +73,11 @@ const resourceSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    visibility: {
+        type: String,
+        enum: ['public', 'private'],
+        default: 'public'
+    },
     isHidden: {
         type: Boolean,
         default: false

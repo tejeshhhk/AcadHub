@@ -19,7 +19,7 @@ const auth = require('../middleware/auth');
 const upload = require('../middleware/upload');
 
 // Public routes
-router.get('/', getResources);
+router.get('/', optionalAuth, getResources);
 router.get('/trending', getTrending);
 
 // The :id routes need to be after specific named routes

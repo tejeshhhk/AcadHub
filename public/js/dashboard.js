@@ -228,11 +228,9 @@ async function loadDownloads() {
 async function loadMyUploads() {
     const grid = document.getElementById('myUploadsGrid');
 
-    const data = await API.get(`/resources?limit=50`);
+    const data = await API.get(`/resources?user=${dashboardUser._id}&limit=100`);
     if (data.success && data.resources) {
-        const myResources = data.resources.filter(
-            r => r.uploadedBy?._id === dashboardUser._id || r.uploadedBy === dashboardUser._id
-        );
+        const myResources = data.resources;
 
         if (myResources.length > 0) {
             grid.innerHTML = myResources.map(r => renderResourceCard(r)).join('');
@@ -252,11 +250,10 @@ async function loadMyUploads() {
  * Load upload count for stats 
  */
 async function loadMyUploadsCount() {
-    const data = await API.get(`/resources?limit=100`);
-    if (data.success && data.resources) {
-        const count = data.resources.filter(
-            r => r.uploadedBy?._id === dashboardUser._id || r.uploadedBy === dashboardUser._id
-        ).length;
-        document.getElementById('statUploads').textContent = count;
+    const data = await API.get(`/resources?user=${dashboardUser._id}&limit=1`);
+    if (data.success && data.pagination) {
+        document.getElementById('statUploads').textContent = data.pagination.total;
+    } else if (data.success && data.resources) {
+        document.getElementById('statUploads').textContent = data.resources.length;
     }
 }
