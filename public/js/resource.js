@@ -97,6 +97,11 @@ function renderResource() {
                 <button class="btn btn-primary btn-lg" onclick="downloadResource('${r._id}', '${r.fileUrl}')">
                     ⬇️ Download File
                 </button>
+                ${r.fileType === 'pdf' || r.fileType === 'image' || r.fileType === 'video' ? `
+                <button class="btn btn-outline btn-lg" onclick="window.open('${r.fileType === 'pdf' && !r.fileUrl.endsWith('.pdf') ? r.fileUrl + '.pdf' : r.fileUrl}', '_blank')">
+                    ⛶ View Full Screen
+                </button>
+                ` : ''}
                 ${isLoggedIn ? `
                     <button class="btn btn-secondary btn-lg" id="bookmarkBtn" onclick="toggleBookmark('${r._id}')">
                         🔖 Bookmark
