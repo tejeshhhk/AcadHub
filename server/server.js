@@ -119,7 +119,7 @@ module.exports = app;
 
 // Only listen on a port if not running in Vercel (Render requires app.listen in production)
 if (!process.env.VERCEL) {
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
         console.log(`\n🚀 Server running on port ${PORT}`);
         console.log(`📁 Static files: ${path.join(__dirname, '../public')}`);
         console.log(`📤 Uploads: ${uploadsDir}\n`);
