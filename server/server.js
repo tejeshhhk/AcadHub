@@ -26,6 +26,9 @@ const notificationRoutes = require('./routes/notificationRoutes');
 // Initialize Express app
 const app = express();
 
+// Trust the reverse proxy used by hosted platforms so rate limiting uses the real client IP
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet({
     contentSecurityPolicy: false, // Disable CSP for simplicity in development
