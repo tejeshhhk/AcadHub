@@ -3,7 +3,9 @@
  * Handles user registration and login with JWT token generation
  */
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const User = require('../models/User');
+const { sendVerificationEmail } = require('../services/emailService');
 
 /**
  * Generate JWT token for a user
@@ -50,29 +52,32 @@ const register = async (req, res) => {
         const userCount = await User.countDocuments();
         const role = userCount === 0 ? 'admin' : 'user';
 
+        // Generate 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
         // Create user
         const user = await User.create({
             name,
             email,
             password,
-            role
+            role,
+            verificationOTP: otp,
+            verificationOTPExpires: otpExpires
         });
 
-        // Generate token
-        const token = generateToken(user._id);
+        // Send verification email
+        try {
+            await sendVerificationEmail(user.email, user.name, otp);
+        } catch (emailError) {
+            console.error('Email Error:', emailError);
+            // We still created the user, but email failed. User can try "resend" later.
+        }
 
         res.status(201).json({
             success: true,
-            message: role === 'admin' 
-                ? 'Registration successful! You are the first user and have been granted admin privileges.' 
-                : 'Registration successful!',
-            token,
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role
-            }
+            message: 'Registration successful! Please check your email for the verification code.',
+            email: user.email
         });
     } catch (error) {
         console.error('Register Error:', error);
@@ -108,12 +113,13 @@ const login = async (req, res) => {
             });
         }
 
-        // Check password
-        const isMatch = await user.comparePassword(password);
-        if (!isMatch) {
+        // Check if verified
+        if (!user.isVerified) {
             return res.status(401).json({
                 success: false,
-                message: 'Invalid email or password.'
+                isNotVerified: true,
+                message: 'Please verify your email before logging in.',
+                email: user.email
             });
         }
 
@@ -164,4 +170,116 @@ const getMe = async (req, res) => {
     }
 };
 
-module.exports = { register, login, getMe };
+/**
+ * POST /api/auth/verify-email
+ * Verify user email with OTP
+ */
+const verifyEmail = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+
+        if (!email || !otp) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide email and OTP.'
+            });
+        }
+
+        const user = await User.findOne({
+            email,
+            verificationOTP: otp,
+            verificationOTPExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid or expired OTP.'
+            });
+        }
+
+        // Update user
+        user.isVerified = true;
+        user.verificationOTP = undefined;
+        user.verificationOTPExpires = undefined;
+        await user.save();
+
+        // Generate token
+        const token = generateToken(user._id);
+
+        res.json({
+            success: true,
+            message: 'Email verified successfully!',
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        console.error('Verify Email Error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error during verification.'
+        });
+    }
+};
+
+/**
+ * POST /api/auth/resend-otp
+ * Resend verification OTP
+ */
+const resendOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide email.'
+            });
+        }
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found.'
+            });
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({
+                success: false,
+                message: 'This email is already verified.'
+            });
+        }
+
+        // Generate new OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+        user.verificationOTP = otp;
+        user.verificationOTPExpires = otpExpires;
+        await user.save();
+
+        // Send email
+        await sendVerificationEmail(user.email, user.name, otp);
+
+        res.json({
+            success: true,
+            message: 'Verification code resent to your email.'
+        });
+    } catch (error) {
+        console.error('Resend OTP Error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error during resending OTP.'
+        });
+    }
+};
+
+module.exports = { register, login, getMe, verifyEmail, resendOTP };

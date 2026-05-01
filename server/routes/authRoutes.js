@@ -6,13 +6,15 @@
  */
 const express = require('express');
 const router = express.Router();
-const { register, login, getMe } = require('../controllers/authController');
+const { register, login, getMe, verifyEmail, resendOTP } = require('../controllers/authController');
 const auth = require('../middleware/auth');
 const { authLimiter } = require('../middleware/rateLimiter');
 
 // Public routes (with stricter rate limiting)
 router.post('/register', authLimiter, register);
 router.post('/login', authLimiter, login);
+router.post('/verify-email', authLimiter, verifyEmail);
+router.post('/resend-otp', authLimiter, resendOTP);
 
 // Protected route
 router.get('/me', auth, getMe);

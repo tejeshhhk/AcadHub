@@ -52,7 +52,13 @@ const userSchema = new mongoose.Schema({
     downloads: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Resource'
-    }]
+    }],
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationOTP: String,
+    verificationOTPExpires: Date
 }, {
     timestamps: true
 });
