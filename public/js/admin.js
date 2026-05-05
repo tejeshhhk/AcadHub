@@ -27,7 +27,7 @@ function switchAdminTab(tab) {
         case 'stats': loadAdminStats(); break;
         case 'users': loadUsers(); break;
         case 'resources': loadAdminResources(); break;
-        case 'reports': loadReports(); break;
+        case 'resources': loadAdminResources(); break;
     }
 }
 
@@ -42,7 +42,6 @@ async function loadAdminStats() {
         document.getElementById('aStatUsers').textContent = s.totalUsers;
         document.getElementById('aStatResources').textContent = s.totalResources;
         document.getElementById('aStatComments').textContent = s.totalComments;
-        document.getElementById('aStatReports').textContent = s.pendingReports;
         document.getElementById('aStatNewUsers').textContent = s.newUsersThisWeek;
         document.getElementById('aStatNewResources').textContent = s.newResourcesThisWeek;
 
@@ -229,72 +228,4 @@ async function forceDelete(resourceId) {
     }
 }
 
-/**
- * Load reports
- */
-async function loadReports() {
-    const data = await API.get('/admin/reports');
-    const container = document.getElementById('reportsTable');
-
-    if (data.success && data.reports && data.reports.length > 0) {
-        container.innerHTML = `
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Resource</th>
-                        <th>Reported By</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${data.reports.map(rp => `
-                        <tr>
-                            <td>
-                                <a href="/resource.html?id=${rp.resourceId?._id}" style="font-weight: 600; color: var(--text-primary);">
-                                    ${rp.resourceId?.title || 'Deleted Resource'}
-                                </a>
-                            </td>
-                            <td style="color: var(--text-secondary);">${rp.reportedBy?.name || 'Unknown'}</td>
-                            <td style="color: var(--text-secondary); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                ${rp.reason}
-                            </td>
-                            <td>
-                                <span class="badge ${rp.status === 'pending' ? 'badge-orange' : rp.status === 'resolved' ? 'badge-green' : 'badge-blue'}">
-                                    ${rp.status}
-                                </span>
-                            </td>
-                            <td class="text-muted">${formatDate(rp.createdAt)}</td>
-                            <td>
-                                ${rp.status === 'pending' ? `
-                                    <div class="flex gap-1">
-                                        <button class="btn btn-success btn-sm" onclick="resolveReport('${rp._id}', 'resolved')">Resolve</button>
-                                        <button class="btn btn-secondary btn-sm" onclick="resolveReport('${rp._id}', 'dismissed')">Dismiss</button>
-                                    </div>
-                                ` : '—'}
-                            </td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        `;
-    } else {
-        container.innerHTML = '<div class="empty-state"><div class="empty-icon">🚩</div><h3>No reports yet</h3><p>Reports will appear here when users flag resources.</p></div>';
-    }
-}
-
-/**
- * Resolve or dismiss a report
- */
-async function resolveReport(reportId, status) {
-    const data = await API.patch(`/admin/reports/${reportId}`, { status });
-    if (data.success) {
-        Toast.success(data.message);
-        loadReports();
-        loadAdminStats();
-    } else {
-        Toast.error(data.message);
-    }
-}
+// Report management functions removed

@@ -106,9 +106,6 @@ function renderResource() {
                     <button class="btn btn-secondary btn-lg" id="bookmarkBtn" onclick="toggleBookmark('${r._id}')">
                         🔖 Bookmark
                     </button>
-                    <button class="btn btn-outline btn-lg" onclick="openReportModal()">
-                        🚩 Report
-                    </button>
                 ` : ''}
             </div>
 
@@ -442,47 +439,4 @@ async function deleteComment(commentId) {
     }
 }
 
-/**
- * Open report modal
- */
-function openReportModal() {
-    if (!Auth.isLoggedIn()) {
-        Toast.warning('Please login to report a resource.');
-        return;
-    }
-    const modal = document.getElementById('reportModal');
-    if (modal) {
-        modal.style.display = 'flex';
-        document.getElementById('reportReason').value = '';
-    }
-}
-
-/**
- * Close report modal
- */
-function closeReportModal() {
-    const modal = document.getElementById('reportModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.getElementById('reportReason').value = '';
-    }
-}
-
-/**
- * Submit report from modal
- */
-async function submitReportModal() {
-    const reason = document.getElementById('reportReason').value.trim();
-    if (!reason) {
-        Toast.warning('Please enter a reason for reporting.');
-        return;
-    }
-
-    const data = await API.post(`/resources/${currentResource._id}/report`, { reason });
-    if (data.success) {
-        Toast.success(data.message);
-        closeReportModal();
-    } else {
-        Toast.error(data.message);
-    }
-}
+// Report System functions removed

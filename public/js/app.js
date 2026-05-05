@@ -191,22 +191,6 @@ function renderNavbar() {
 
     const navActions = isLoggedIn ? `
         <div class="navbar-actions">
-            <!-- Notification Bell -->
-            <div class="notif-wrapper" style="position: relative;">
-                <button class="btn-icon btn-secondary" id="notifBell" onclick="toggleNotifPanel()" title="Notifications" style="position: relative; font-size: 1.15rem;">
-                    🔔
-                    <span id="notifBadge" class="notif-badge" style="display: none;">0</span>
-                </button>
-                <div class="notif-panel" id="notifPanel" style="display: none;">
-                    <div class="notif-panel-header">
-                        <strong>Notifications</strong>
-                        <button class="comment-action" onclick="markAllNotifRead()">Mark all read</button>
-                    </div>
-                    <div class="notif-panel-body" id="notifList">
-                        <div class="empty-state" style="padding: 1.5rem;"><p class="text-sm text-muted">No notifications</p></div>
-                    </div>
-                </div>
-            </div>
             <span style="font-size: 0.85rem; color: var(--text-secondary);">${user.name}</span>
             <div class="nav-avatar" title="Profile">${user.name.charAt(0).toUpperCase()}</div>
             <button class="btn btn-secondary btn-sm" style="margin-left: 0.75rem;" onclick="Auth.logout()">Logout</button>
@@ -236,8 +220,7 @@ function renderNavbar() {
 
     // Start polling for notifications if logged in
     if (isLoggedIn) {
-        loadNotifCount();
-        setInterval(loadNotifCount, 30000); // poll every 30s
+        // Notification polling removed
     }
 }
 
@@ -246,86 +229,7 @@ function toggleMobileNav() {
     if (menu) menu.classList.toggle('open');
 }
 
-// ============================================
-// Notification System
-// ============================================
-async function loadNotifCount() {
-    const data = await API.get('/notifications/unread-count');
-    if (data.success) {
-        const badge = document.getElementById('notifBadge');
-        if (badge) {
-            if (data.count > 0) {
-                badge.textContent = data.count > 99 ? '99+' : data.count;
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
-            }
-        }
-    }
-}
-
-async function toggleNotifPanel() {
-    const panel = document.getElementById('notifPanel');
-    if (!panel) return;
-
-    if (panel.style.display === 'none') {
-        panel.style.display = 'block';
-        await loadNotifications();
-    } else {
-        panel.style.display = 'none';
-    }
-}
-
-async function loadNotifications() {
-    const data = await API.get('/notifications');
-    const list = document.getElementById('notifList');
-    if (!list) return;
-
-    if (data.success && data.notifications && data.notifications.length > 0) {
-        list.innerHTML = data.notifications.slice(0, 20).map(n => {
-            const typeIcons = {
-                comment: '💬', reply: '↩️', rating: '⭐', download: '⬇️',
-                report: '🚩', bookmark: '🔖', upload: '📤', admin: '⚙️', system: '🔔'
-            };
-            const icon = typeIcons[n.type] || '🔔';
-            const unreadClass = n.isRead ? '' : 'notif-unread';
-            const link = n.resourceId ? `/resource.html?id=${n.resourceId._id || n.resourceId}` : '#';
-
-            return `
-                <div class="notif-item ${unreadClass}" onclick="window.location.href='${link}'; markNotifRead('${n._id}')">
-                    <span class="notif-icon">${icon}</span>
-                    <div class="notif-content">
-                        <div class="notif-title">${n.title}</div>
-                        <div class="notif-msg">${n.message}</div>
-                        <div class="notif-time">${formatDate(n.createdAt)}</div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    } else {
-        list.innerHTML = `<div class="empty-state" style="padding: 1.5rem;"><p class="text-sm text-muted">No notifications yet</p></div>`;
-    }
-}
-
-async function markNotifRead(id) {
-    await API.patch(`/notifications/${id}/read`, {});
-}
-
-async function markAllNotifRead() {
-    await API.patch('/notifications/read-all', {});
-    await loadNotifications();
-    loadNotifCount();
-    Toast.success('All notifications marked as read.');
-}
-
-// Close notification panel when clicking outside
-document.addEventListener('click', (e) => {
-    const panel = document.getElementById('notifPanel');
-    const bell = document.getElementById('notifBell');
-    if (panel && panel.style.display === 'block' && !panel.contains(e.target) && e.target !== bell && !bell.contains(e.target)) {
-        panel.style.display = 'none';
-    }
-});
+// Notification System functions removed
 
 // ============================================
 // Utility Functions
